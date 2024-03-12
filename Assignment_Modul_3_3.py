@@ -2,10 +2,13 @@ import re
 
 def normalize_phone(phone_number):
     normalized_number = re.sub(r'\D', '', phone_number) # Видаляємо всі символи, крім цифр та '+'
-    if not normalized_number.startswith('+'):  # Перевіряємо, чи почінається номер з '+'
-        normalized_number = '+38' + normalized_number # якщо ні, додаємо '+38'
-
-    return normalized_number
+      
+    if len(normalized_number) == 12 and normalized_number[0] == '3' and normalized_number[1] == '8' and normalized_number[2] == '0':  # Перевіряємо, чи відповідає номер критеріям
+        return '+' + normalized_number  # Якщо так, повертаємо номер без зайвих символів
+    elif len(normalized_number) == 10:  # Якщо номер без міжнародного коду, додаємо '+38' та повертаємо
+        return '+38' + normalized_number
+    else:  # Якщо номер не відповідає критеріям, повертаємо порожній рядок
+        return ''
 
 raw_numbers = [
     "067\\t123 4567",
